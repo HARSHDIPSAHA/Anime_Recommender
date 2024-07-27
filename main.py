@@ -40,16 +40,44 @@ st.title("Anime Recommendation System")
 # User input
 anime_input = st.text_input("Enter an anime name:")
 
-if st.button("Recommend"):
-    if anime_input:
-        recommendations = recommend(anime_input)
-        st.write("Here are the top 5 recommended anime:")
+if 'current_index' not in st.session_state:
+    st.session_state.current_index = 0
 
-        for i in range(len(recommendations["Name"])):
-            st.markdown(f"### {i+1}. {recommendations['Name'][i]}")
-            st.write(f"**Other name:** {recommendations['Other name'][i]}")
-            st.write(f"**Abstract:** {recommendations['Abstract'][i]}")
-            st.write(f"**Genre:** {recommendations['Genre'][i]}")
-            st.write("---")
+if st.button("Recommend"):
+    st.session_state.current_index = 0  # Reset to the first recommendation
+    if anime_input:
+        st.session_state.recommendations = recommend(anime_input)
+        st.write("Here is your recommended anime:")
+
+        recommendation = st.session_state.recommendations
+        idx = st.session_state.current_index
+
+        st.markdown(f"### {idx+1}. {recommendation['Name'][idx]}")
+        st.write(f"**Other name:** {recommendation['Other name'][idx]}")
+        st.write(f"**Abstract:** {recommendation['Abstract'][idx]}")
+        st.write(f"**Genre:** {recommendation['Genre'][idx]}")
+        st.write("---")
+        
+        if idx < len(recommendation["Name"]) - 1:
+            if st.button("Next"):
+                st.session_state.current_index += 1
+                st.experimental_rerun()
     else:
         st.write("Please enter an anime name to get recommendations.")
+
+if 'recommendations' in st.session_state:
+    recommendation = st.session_state.recommendations
+    idx = st.session_state.current_index
+    if idx < len(recommendation["Name"]) and idx >= 0:
+        st.markdown(f"### {idx+1}. {recommendation['Name'][idx]}")
+        st.write(f"**Other name:** {recommendation['Other name'][idx]}")
+        st.write(f"**Abstract:** {recommendation['Abstract'][idx]}")
+        st.write(f"**Genre:** {recommendation['Genre'][idx]}")
+        st.write("---")
+        
+        if idx < len(recommendation["Name"]) - 1:
+            if st.button("Next"):
+                st.session_state.current_index += 1
+                st.experimental_rerun()
+    elif idx >= len(recommendation["Name"]):
+        st.write("No more recommendations.")
