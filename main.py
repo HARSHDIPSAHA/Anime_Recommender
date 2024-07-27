@@ -43,20 +43,34 @@ anime_input = st.text_input("Enter an anime name:")
 if 'current_index' not in st.session_state:
     st.session_state.current_index = 0
 
+if 'displayed_recommendations' not in st.session_state:
+    st.session_state.displayed_recommendations = []
+
 if st.button("Recommend"):
     st.session_state.current_index = 0  # Reset to the first recommendation
+    st.session_state.displayed_recommendations = []  # Clear previous recommendations
     if anime_input:
         st.session_state.recommendations = recommend(anime_input)
         st.write("Here is your recommended anime:")
-
+        
         recommendation = st.session_state.recommendations
         idx = st.session_state.current_index
-
-        st.markdown(f"### {idx+1}. {recommendation['Name'][idx]}")
-        st.write(f"**Other name:** {recommendation['Other name'][idx]}")
-        st.write(f"**Abstract:** {recommendation['Abstract'][idx]}")
-        st.write(f"**Genre:** {recommendation['Genre'][idx]}")
-        st.write("---")
+        
+        rec = {
+            "Name": recommendation['Name'][idx],
+            "Other name": recommendation['Other name'][idx],
+            "Abstract": recommendation['Abstract'][idx],
+            "Genre": recommendation['Genre'][idx]
+        }
+        
+        st.session_state.displayed_recommendations.append(rec)
+        
+        for i, rec in enumerate(st.session_state.displayed_recommendations):
+            st.markdown(f"### {i+1}. {rec['Name']}")
+            st.write(f"**Other name:** {rec['Other name']}")
+            st.write(f"**Abstract:** {rec['Abstract']}")
+            st.write(f"**Genre:** {rec['Genre']}")
+            st.write("---")
         
         if idx < len(recommendation["Name"]) - 1:
             if st.button("Next"):
@@ -69,11 +83,22 @@ if 'recommendations' in st.session_state:
     recommendation = st.session_state.recommendations
     idx = st.session_state.current_index
     if idx < len(recommendation["Name"]) and idx >= 0:
-        st.markdown(f"### {idx+1}. {recommendation['Name'][idx]}")
-        st.write(f"**Other name:** {recommendation['Other name'][idx]}")
-        st.write(f"**Abstract:** {recommendation['Abstract'][idx]}")
-        st.write(f"**Genre:** {recommendation['Genre'][idx]}")
-        st.write("---")
+        rec = {
+            "Name": recommendation['Name'][idx],
+            "Other name": recommendation['Other name'][idx],
+            "Abstract": recommendation['Abstract'][idx],
+            "Genre": recommendation['Genre'][idx]
+        }
+        
+        if rec not in st.session_state.displayed_recommendations:
+            st.session_state.displayed_recommendations.append(rec)
+        
+        for i, rec in enumerate(st.session_state.displayed_recommendations):
+            st.markdown(f"### {i+1}. {rec['Name']}")
+            st.write(f"**Other name:** {rec['Other name']}")
+            st.write(f"**Abstract:** {rec['Abstract']}")
+            st.write(f"**Genre:** {rec['Genre']}")
+            st.write("---")
         
         if idx < len(recommendation["Name"]) - 1:
             if st.button("Next"):
