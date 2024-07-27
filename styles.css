@@ -21,6 +21,23 @@ h1 {
     border-radius: 5px;
     padding: 20px;
     margin-bottom: 20px;
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+}
+
+.image-container {
+    flex: 1; /* Allow this container to take up 1 part of the available space */
+    max-width: 150px; /* Set a maximum width for the image */
+}
+
+.image-container img {
+    width: 100%; /* Make image fill the container */
+    border-radius: 5px; /* Rounded corners for the image */
+}
+
+.info-container {
+    flex: 3; /* Allow this container to take up 3 parts of the available space */
+    margin-left: 20px; /* Space between the image and the text */
 }
 
 .recommendation-card h3 {
@@ -30,6 +47,7 @@ h1 {
 .recommendation-card p {
     color: #0c0202;
 }
+
 .about-section {
     margin-top: 50px;
     padding: 20px;
