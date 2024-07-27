@@ -15,6 +15,27 @@ h1 {
     width: 100%;
 }
 
+.user-anime-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px; /* Add some space below the user anime card */
+}
+
+.user-image-container {
+    flex: 1;
+    max-width: 200px; /* Set a larger maximum width for the user anime image */
+}
+
+.user-image-container img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.user-info-container {
+    flex: 3;
+    margin-left: 20px;
+}
+
 .recommendation-card {
     background-color: #0eb5cb; /* Light blue background */
     border: 1px solid #dddddd;
