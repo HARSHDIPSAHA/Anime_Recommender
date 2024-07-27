@@ -64,3 +64,14 @@ if st.button("Recommend"):
             """, unsafe_allow_html=True)
     else:
         st.write("Please enter an anime name to get recommendations.")
+
+# About section
+st.markdown("""
+<div class="about-section">
+    <h2>About</h2>
+    <p>This Anime Recommendation System uses a dataset of anime titles, genres, and synopses to recommend similar anime based on your input.</p>
+    <p>Rather than simply based on similar story and content, this system uses the data of various users and then give suggestions,<a href="https://developers.google.com/machine-learning/recommendation/collaborative/basics"> Collaborative filtering </a>
+    <p><strong>Dataset Used:</strong> <a href="https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset">Kaggle Dataset</a></p>
+    <p><strong>Feedback:</strong> If you have any feedback or suggestions, please feel free to <a href="harshdipsaha95@gmail.com">email me</a>.</p>
+</div>
+""", unsafe_allow_html=True)
