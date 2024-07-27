@@ -14,7 +14,7 @@ def recommend(anime):
     similar_items = sorted(list(enumerate(similarity_scores[index])), key=lambda x: x[1], reverse=True)[1:5]
     
     recommendations = {
-        "Name": [],
+        "English name": [],
         "Abstract": [],
         "Genre": []
     }
@@ -25,7 +25,7 @@ def recommend(anime):
         abstract = temp_df['Synopsis'].drop_duplicates().values[0]
         genres = temp_df['Genres'].drop_duplicates().values[0]
         
-        recommendations["Name"].append(name)
+        recommendations["English name"].append(name)
         recommendations["Abstract"].append(abstract)
         recommendations["Genre"].append(genres)
     
@@ -42,8 +42,8 @@ if st.button("Recommend"):
         recommendations = recommend(anime_input)
         st.write("Here are the top 5 recommended anime:")
 
-        for i in range(len(recommendations["Name"])):
-            st.markdown(f"### {i+1}. {recommendations['Name'][i]}")
+        for i in range(len(recommendations["English name"])):
+            st.markdown(f"### {i+1}. {recommendations['English name'][i]}")
             st.write(f"**Abstract:** {recommendations['Abstract'][i]}")
             st.write(f"**Genre:** {recommendations['Genre'][i]}")
             st.write("---")
