@@ -1,5 +1,7 @@
 #Collaborative filtering
 
+In collaborative filtering, a recommendation system recommends a user the products on the basis of the preferences of the other users with similar tastes.
+
 
 The models folder is present at https://drive.google.com/drive/folders/1D6PQBEFtlem0NQEFVDqN8c1R0jcUxMoj?usp=drive_link  (due to large size) 
 
