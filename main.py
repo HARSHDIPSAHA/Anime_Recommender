@@ -73,9 +73,9 @@ if st.button("Recommend"):
             st.write("---")
         
         if idx < len(recommendation["Name"]) - 1:
-            if st.button("Next"):
+            if st.button("Next", key="next1"):
                 st.session_state.current_index += 1
-                st.experimental_rerun()
+                st.rerun()
     else:
         st.write("Please enter an anime name to get recommendations.")
 
@@ -101,8 +101,8 @@ if 'recommendations' in st.session_state:
             st.write("---")
         
         if idx < len(recommendation["Name"]) - 1:
-            if st.button("Next"):
+            if st.button("Next", key="next2"):
                 st.session_state.current_index += 1
-                st.experimental_rerun()
+                st.rerun()
     elif idx >= len(recommendation["Name"]):
         st.write("No more recommendations.")
