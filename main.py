@@ -34,71 +34,33 @@ def recommend(anime):
     
     return recommendations
 
+# Load custom CSS
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 # Streamlit app
 st.title("Anime Recommendation System")
+
+# Load CSS
+load_css("styles.css")
 
 # User input
 anime_input = st.text_input("Enter an anime name:")
 
-if 'current_index' not in st.session_state:
-    st.session_state.current_index = 0
-
-if 'displayed_recommendations' not in st.session_state:
-    st.session_state.displayed_recommendations = []
-
-if st.button("Recommend", key="recommend_button"):
+if st.button("Recommend"):
     if anime_input:
-        st.session_state.current_index = 0  # Reset to the first recommendation
-        st.session_state.displayed_recommendations = []  # Clear previous recommendations
-        st.session_state.recommendations = recommend(anime_input)
-        st.session_state.displayed_recommendations.append(st.session_state.recommendations)
-        
-        recommendation = st.session_state.recommendations
-        idx = st.session_state.current_index
-        
-        rec = {
-            "Name": recommendation['Name'][idx],
-            "Other name": recommendation['Other name'][idx],
-            "Abstract": recommendation['Abstract'][idx],
-            "Genre": recommendation['Genre'][idx]
-        }
-        
-        st.session_state.displayed_recommendations.append(rec)
-        
-        for i, rec in enumerate(st.session_state.displayed_recommendations):
-            st.markdown(f"### {i+1}. {rec['Name']}")
-            st.write(f"**Other name:** {rec['Other name']}")
-            st.write(f"**Abstract:** {rec['Abstract']}")
-            st.write(f"**Genre:** {rec['Genre']}")
-            st.write("---")
+        recommendations = recommend(anime_input)
+        st.write("Here are the top 5 recommended anime:")
+
+        for i in range(len(recommendations["Name"])):
+            st.markdown(f"""
+            <div class="recommendation-card">
+                <h3>{i+1}. {recommendations['Name'][i]}</h3>
+                <p><strong>Other name:</strong> {recommendations['Other name'][i]}</p>
+                <p><strong>Abstract:</strong> {recommendations['Abstract'][i]}</p>
+                <p><strong>Genre:</strong> {recommendations['Genre'][i]}</p>
+            </div>
+            """, unsafe_allow_html=True)
     else:
         st.write("Please enter an anime name to get recommendations.")
-
-if 'recommendations' in st.session_state:
-    recommendation = st.session_state.recommendations
-    idx = st.session_state.current_index
-    
-    if idx < len(recommendation["Name"]):
-        rec = {
-            "Name": recommendation['Name'][idx],
-            "Other name": recommendation['Other name'][idx],
-            "Abstract": recommendation['Abstract'][idx],
-            "Genre": recommendation['Genre'][idx]
-        }
-        
-        if rec not in st.session_state.displayed_recommendations:
-            st.session_state.displayed_recommendations.append(rec)
-        
-        for i, rec in enumerate(st.session_state.displayed_recommendations):
-            st.markdown(f"### {i+1}. {rec['Name']}")
-            st.write(f"**Other name:** {rec['Other name']}")
-            st.write(f"**Abstract:** {rec['Abstract']}")
-            st.write(f"**Genre:** {rec['Genre']}")
-            st.write("---")
-        
-        if idx < len(recommendation["Name"]) - 1:
-            if st.button("Next", key="next_button"):
-                st.session_state.current_index += 1
-                st.rerun()
-    else:
-        st.write("No more recommendations.")
