@@ -17,7 +17,8 @@ def recommend(anime):
         "Name": [],
         "Other name": [],
         "Abstract": [],
-        "Genre": []
+        "Genre": [],
+        "Image URL": []
     }
     
     for i, (anime_index, score) in enumerate(similar_items, start=1):
@@ -26,11 +27,13 @@ def recommend(anime):
         other_name = temp_df['Other name'].drop_duplicates().values[0]
         abstract = temp_df['Synopsis'].drop_duplicates().values[0]
         genres = temp_df['Genres'].drop_duplicates().values[0]
+        image_url = temp_df['Image URL'].drop_duplicates().values[0]  # Assuming 'Image URL' is the column name
         
         recommendations["Name"].append(name)
         recommendations["Other name"].append(other_name)
         recommendations["Abstract"].append(abstract)
         recommendations["Genre"].append(genres)
+        recommendations["Image URL"].append(image_url)
     
     return recommendations
 
@@ -56,10 +59,15 @@ if st.button("Recommend"):
         for i in range(len(recommendations["Name"])):
             st.markdown(f"""
             <div class="recommendation-card">
-                <h3>{i+1}. {recommendations['Name'][i]}</h3>
-                <p><strong>Other name:</strong> {recommendations['Other name'][i]}</p>
-                <p><strong>Abstract:</strong> {recommendations['Abstract'][i]}</p>
-                <p><strong>Genre:</strong> {recommendations['Genre'][i]}</p>
+                <div class="image-container">
+                    <img src="{recommendations['Image URL'][i]}" alt="{recommendations['Name'][i]}">
+                </div>
+                <div class="info-container">
+                    <h3>{i+1}. {recommendations['Name'][i]}</h3>
+                    <p><strong>Other name:</strong> {recommendations['Other name'][i]}</p>
+                    <p><strong>Abstract:</strong> {recommendations['Abstract'][i]}</p>
+                    <p><strong>Genre:</strong> {recommendations['Genre'][i]}</p>
+                </div>
             </div>
             """, unsafe_allow_html=True)
     else:
@@ -72,6 +80,6 @@ st.markdown("""
     <p>This Anime Recommendation System uses a dataset of anime titles, genres, and synopses to recommend similar anime based on your input.</p>
     <p>Rather than simply based on similar story and content, this system uses the data of various users and then give suggestions,<a href="https://developers.google.com/machine-learning/recommendation/collaborative/basics"> Collaborative filtering </a>
     <p><strong>Dataset Used:</strong> <a href="https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset">Kaggle Dataset</a></p>
-    <p><strong>Feedback:</strong> If you have any feedback or suggestions, please feel free to <a href="harshdipsaha95@gmail.com">email me</a>.</p>
+    <p><strong>Feedback:</strong> If you have any feedback or suggestions, please feel free to <a href="mailto:harshdipsaha95@gmail.com">email me</a>.</p>
 </div>
 """, unsafe_allow_html=True)
