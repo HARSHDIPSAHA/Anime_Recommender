@@ -56,6 +56,18 @@ if st.button("Recommend"):
         recommendations = recommend(anime_input)
         st.write("Here are the top 5 recommended anime:")
 
+        user_anime_image = data[data['English name'] == anime_input]['Image URL'].values[0]
+        st.markdown(f"""
+        <div class="user-anime-card">
+            <div class="user-image-container">
+                <img src="{user_anime_image}" alt="{anime_input}">
+            </div>
+            <div class="user-info-container">
+                <h2>{anime_input}</h2>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
         for i in range(len(recommendations["Name"])):
             st.markdown(f"""
             <div class="recommendation-card">
