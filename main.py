@@ -46,12 +46,12 @@ if 'current_index' not in st.session_state:
 if 'displayed_recommendations' not in st.session_state:
     st.session_state.displayed_recommendations = []
 
-if st.button("Recommend"):
-    st.session_state.current_index = 0  # Reset to the first recommendation
-    st.session_state.displayed_recommendations = []  # Clear previous recommendations
+if st.button("Recommend", key="recommend_button"):
     if anime_input:
+        st.session_state.current_index = 0  # Reset to the first recommendation
+        st.session_state.displayed_recommendations = []  # Clear previous recommendations
         st.session_state.recommendations = recommend(anime_input)
-        st.write("Here is your recommended anime:")
+        st.session_state.displayed_recommendations.append(st.session_state.recommendations)
         
         recommendation = st.session_state.recommendations
         idx = st.session_state.current_index
@@ -71,18 +71,14 @@ if st.button("Recommend"):
             st.write(f"**Abstract:** {rec['Abstract']}")
             st.write(f"**Genre:** {rec['Genre']}")
             st.write("---")
-        
-        if idx < len(recommendation["Name"]) - 1:
-            if st.button("Next", key="next1"):
-                st.session_state.current_index += 1
-                st.rerun()
     else:
         st.write("Please enter an anime name to get recommendations.")
 
 if 'recommendations' in st.session_state:
     recommendation = st.session_state.recommendations
     idx = st.session_state.current_index
-    if idx < len(recommendation["Name"]) and idx >= 0:
+    
+    if idx < len(recommendation["Name"]):
         rec = {
             "Name": recommendation['Name'][idx],
             "Other name": recommendation['Other name'][idx],
@@ -101,8 +97,8 @@ if 'recommendations' in st.session_state:
             st.write("---")
         
         if idx < len(recommendation["Name"]) - 1:
-            if st.button("Next", key="next2"):
+            if st.button("Next", key="next_button"):
                 st.session_state.current_index += 1
                 st.rerun()
-    elif idx >= len(recommendation["Name"]):
+    else:
         st.write("No more recommendations.")
